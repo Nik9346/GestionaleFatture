@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
+	
+	//Attributi di istanza del Cliente
 	private int id;
 	private String nome;
 	private String cognome;
 	private List<Fattura> fatture = new ArrayList<>();
 	
+	//Getter and Setter
 	public List<Fattura> getFatture() {
 		return fatture;
 	}
@@ -33,6 +36,7 @@ public class Cliente {
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
+	//ToString dell'oggetto Cliente
 	@Override
 	public String toString() {
 		return "Cliente: " + nome + " "+  cognome;

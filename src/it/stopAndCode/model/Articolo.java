@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Articolo {
+	
+	//Attributi di istanza dell'oggetto
 	private int id;
 	private String descrizione;
 	private float prezzoUnitario;
 	private int quantita;
 	private List<Fattura> fatture = new ArrayList<>();
 	
-	
+	//Getter and Setter
 	public int getId() {
 		return id;
 	}
@@ -42,6 +44,7 @@ public class Articolo {
 	public void setFatture(List<Fattura> fatture) {
 		this.fatture = fatture;
 	}
+	//ToString dell'oggetto
 	@Override
 	public String toString() {
 		return "Articolo: " + descrizione + " Prezzo: " + prezzoUnitario + "€ " + " Quantità: N°" + quantita;

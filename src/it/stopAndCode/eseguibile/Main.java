@@ -1,5 +1,9 @@
 package it.stopAndCode.eseguibile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,21 +23,36 @@ import it.stopAndCode.repository.FatturaRepositoryAvanzata;
 
 public class Main {
 
+	
 	private static Scanner scanner = new Scanner(System.in);
+	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	
 	private static FatturaRepository repository = new FatturaRepositoryAvanzata();
 	private static ArticoloRepository articoloRepository = new ArticoloRepositoryImpl();
 	private static ClienteRepository clienteRepository = new ClienteRepositoryImpl();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		GestioneFattura();
 
 	}
 
-	static void GestioneFattura() {
+	/**
+	 * Con questa funzione avvio il programma
+	 * @throws IOException 
+	 * @Author Nicola
+	 * @Version 1.0.0
+	 */
+	static void GestioneFattura() throws IOException {
 		System.out.println("Cosa vuoi fare?");
 		System.out.println(
-				"N - Nuova Fattura \nL - Registro Fattura \nA - Elenco Articoli \nC - Elenco Clienti \nE - Esci");
-		String scelta = scanner.next(); // è necessario salvare lo scanner in una variabile per essere analizzato da
+				"N - Nuova Fattura "
+				+ "\nL - Registro Fattura "
+				+ "\nRA - Registra Articolo "
+				+ "\nRC - Registra Cliente "
+				+ "\nA - Elenco Articoli "
+				+ "\nC - Elenco Clienti "
+				+ "\nE - Esci");
+		String scelta = reader.readLine(); // è necessario salvare lo scanner in una variabile per essere analizzato da
 										// tutti gli if
 		if (scelta.equalsIgnoreCase("N")) {
 			registraFattura();
@@ -50,22 +69,34 @@ public class Main {
 		} else if (scelta.equalsIgnoreCase("E")) {
 			System.out.println("Uscita dal Programma in corso");
 			System.exit(0);
+		} else if(scelta.equalsIgnoreCase("RA")) {
+			articoloRepository.registraArticolo(registraArticolo());
+			GestioneFattura();
 		} else {
 			System.out.println("Scelta non valida, riprova.");
 			GestioneFattura();
 		}
 
 	}
-
-	static void registraFattura() {
+	/**
+	 * Questa funzione permette di creare la fattura, in base ai dati richiesti in input, crea l'oggetto fattura
+	 * @throws IOException 
+	 * @Author Nicola
+	 */
+	static void registraFattura() throws IOException {
+		
 		Fattura fattura = new Fattura();
 
 		System.out.println("CREA UNA NUOVA FATTURA \nInserisci la data in formato aaaa-mm-gg");
-		String dataInput = scanner.next();
+		String dataInput = reader.readLine();
+		
+		
+		 // Funzione utilizzata per la verifica dell'input Data inserita dall'utente.
 		if (dataInput.matches("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date parseDate;
 
+			
 			try {
 				parseDate = dateFormat.parse(dataInput);
 				java.sql.Date sqlDate = new java.sql.Date(parseDate.getTime());
@@ -75,7 +106,7 @@ public class Main {
 			}
 
 			System.out.println("Inserisci l'aliquota IVA");
-			int iva = scanner.nextInt();
+			int iva = reader.read();
 			fattura.setIva(iva);
 
 			Cliente cliente = registraCliente();
@@ -94,7 +125,11 @@ public class Main {
 		}
 	}
 
-	static void leggiFattura() {
+	/**
+	 * Questa funzione permette di leggere dati dal database, passa una query che ritorna tutte le fatture registrate
+	 * @throws IOException 
+	 */
+	static void leggiFattura() throws IOException {
 		System.out.println("REGISTRO FATTURE EMESSE");
 		System.out.println("----------------------------");
 		for (Fattura fattura : repository.getFatture()) {
@@ -103,8 +138,11 @@ public class Main {
 		}
 		GestioneFattura();
 	}
-
-	// Funzione utilizzata per leggere l'intero archivio degli articoli
+	
+	/**
+	 * Questa funzione viene utilizzate per leggere l'intero archivio degli articoli nel database
+	 */
+	
 	static void elencoArticoli() {
 		System.out.println("ELENCO ARTICOLI REGISTRATI");
 		System.out.println("------------------------------");
@@ -114,7 +152,9 @@ public class Main {
 		}
 	}
 
-	// Funzione utilizzata per leggere l'intero elenco Clienti
+	/**
+	 * Funzione utilizzata per leggere l'intero elenco Clienti
+	 */
 	static void elencoClienti() {
 		System.out.println("ELENCO CLIENTI REGISTRATI");
 		System.out.println("------------------------------");
@@ -124,22 +164,28 @@ public class Main {
 		}
 	}
 
-	// Funzione utilizzata per registrare il singolo articolo
+	/**
+	 *  Funzione utilizzata per registrare il singolo articolo
+	 * @return un oggetto di tipo Articolo dopo aver ricevuto in input i dati necessari alla costruzione dello stesso
+	 */
 	static Articolo registraArticolo() {
 
 		try {
 			Articolo articolo = new Articolo();
 
+
 			System.out.println("Inserisci la descrizione dell'articolo");
-			String descrizioneString = scanner.next();
+			String descrizioneString = reader.readLine();
 			articolo.setDescrizione(descrizioneString);
 
 			System.out.println("Inserisci il prezzo della singola unità");
-			float prezzoUnitario = scanner.nextFloat();
-			articolo.setPrezzoUnitario(prezzoUnitario);
+			String prezzoUnitario = reader.readLine();
+			prezzoUnitario = prezzoUnitario.replace(",", ".");
+			float prezzoUni = Float.parseFloat(prezzoUnitario);
+			articolo.setPrezzoUnitario(prezzoUni);
 
 			System.out.println("Inserisci la quantità del prodotto");
-			int quantita = scanner.nextInt();
+			int quantita = Integer.parseInt(reader.readLine());
 			articolo.setQuantita(quantita);
 
 			return articolo;
@@ -150,17 +196,20 @@ public class Main {
 
 	}
 
-	// Funzione utilizzata per registrare il Cliente
+	/**
+	 *  Funzione utilizzata per registrare il Cliente
+	 * @return un oggetto di tipo Cliente dopo aver ricevuto in input i dati per la costruzione
+	 */
 	static Cliente registraCliente() {
 		try {
 			Cliente cliente = new Cliente();
 
 			System.out.println("Inserisci il nome del cliente");
-			String nomeCliente = scanner.next();
+			String nomeCliente = reader.readLine();
 			cliente.setNome(nomeCliente);
 
 			System.out.println("Inserisci il cognome del cliente");
-			String cognomeCliente = scanner.next();
+			String cognomeCliente = reader.readLine();
 			cliente.setCognome(cognomeCliente);
 
 			return cliente;
@@ -170,19 +219,22 @@ public class Main {
 		}
 	}
 
-	// Funzione utilizzata per registrare più articoli
+	/**
+	 *  Funzione utilizzata per registrare più articoli
+	 * @return un'ArrayList di articoli registrati
+	 */
 	static List<Articolo> registraArticolinew() {
 		System.out.println("Per Uscire dalla registrazione dell'articolo premere Q, altrimenti premi N");
 
 		try {
-			String sceltaString = scanner.next();
+			String sceltaString = reader.readLine();
 			List<Articolo> articoli = new ArrayList<>();
 			while (sceltaString.equalsIgnoreCase("N")) {
 				Articolo articolo = registraArticolo(); 
 				articoli.add(articolo);
 				
 				System.out.println("Vuoi inserire un altro prodotto? premi N altrimenti altro per uscire");
-				sceltaString = scanner.next();
+				sceltaString = reader.readLine();
 			}
 			return articoli;
 		} catch (Exception e) {
