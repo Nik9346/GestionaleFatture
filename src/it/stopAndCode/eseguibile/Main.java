@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 import it.stopAndCode.model.Articolo;
 import it.stopAndCode.model.Cliente;
@@ -23,8 +22,6 @@ import it.stopAndCode.repository.FatturaRepositoryAvanzata;
 
 public class Main {
 
-	
-	private static Scanner scanner = new Scanner(System.in);
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
 	private static FatturaRepository repository = new FatturaRepositoryAvanzata();
@@ -33,7 +30,6 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		GestioneFattura();
-
 	}
 
 	/**
@@ -48,7 +44,6 @@ public class Main {
 				"N - Nuova Fattura "
 				+ "\nL - Registro Fattura "
 				+ "\nRA - Registra Articolo "
-				+ "\nRC - Registra Cliente "
 				+ "\nA - Elenco Articoli "
 				+ "\nC - Elenco Clienti "
 				+ "\nE - Esci");
@@ -142,7 +137,6 @@ public class Main {
 	/**
 	 * Questa funzione viene utilizzate per leggere l'intero archivio degli articoli nel database
 	 */
-	
 	static void elencoArticoli() {
 		System.out.println("ELENCO ARTICOLI REGISTRATI");
 		System.out.println("------------------------------");

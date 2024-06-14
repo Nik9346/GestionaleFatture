@@ -8,7 +8,7 @@ import it.stopAndCode.model.Articolo;
 
 public interface ArticoloRepository extends Repository {
 	
-	public int registraArticolo(Articolo articolo);
+	public void registraArticolo(Articolo articolo);
 	
 	public void registraArticoli(List<Articolo> articoli, Connection connection);
 	

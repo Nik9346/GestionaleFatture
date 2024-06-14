@@ -10,7 +10,7 @@ import it.stopAndCode.model.Fattura;
 
 public interface FatturaRepository extends Repository{
 	
-	public int registraFattura(Fattura fattura, Connection connection) throws SQLException;
+	public void registraFattura(Fattura fattura, Connection connection) throws SQLException;
 	
 	public List<Fattura> getFatture();
 	

@@ -5,11 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public interface Repository {
+	
 	String MAMPPORT = "8889";
 	String XAAMPPORTS = "3310";
+	
 	String URL = "jdbc:mysql://localhost:"+MAMPPORT+"/dbgestionefatture"; // jdbc:mysql driver per il database di mysql --
-	// indirizzo del server / nome del database con
-	// il quale si vuole interagire "sql_01"
+	// indirizzo del server / nome del database con il quale interagire
 	String USERNAME = "root";
 	String PASSWORD = null;
 	String MAMPPASSWORD = "root";
@@ -24,5 +25,4 @@ public interface Repository {
 			return null;
 		}
 	}
-
 }
