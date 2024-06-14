@@ -32,7 +32,7 @@ public class Main {
 	static void GestioneFattura() {
 		System.out.println("Cosa vuoi fare?");
 		System.out.println(
-				"N - Nuova Fattura \nL - Registro Fattura \nE - Esci \nA - Elenco Articoli \nC - Elenco Clienti");
+				"N - Nuova Fattura \nL - Registro Fattura \nA - Elenco Articoli \nC - Elenco Clienti \nE - Esci");
 		String scelta = scanner.next(); // è necessario salvare lo scanner in una variabile per essere analizzato da
 										// tutti gli if
 		if (scelta.equalsIgnoreCase("N")) {
@@ -178,9 +178,7 @@ public class Main {
 			String sceltaString = scanner.next();
 			List<Articolo> articoli = new ArrayList<>();
 			while (sceltaString.equalsIgnoreCase("N")) {
-				Articolo articolo = registraArticolo(); // devo capire per quale motivo rimane appeso e non passa sotto
-														// al
-														// messaggio di inserimento
+				Articolo articolo = registraArticolo(); 
 				articoli.add(articolo);
 				
 				System.out.println("Vuoi inserire un altro prodotto? premi N altrimenti altro per uscire");
