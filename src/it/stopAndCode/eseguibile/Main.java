@@ -106,7 +106,7 @@ public class Main {
 			}
 
 			System.out.println("Inserisci l'aliquota IVA");
-			int iva = reader.read();
+			int iva = Integer.parseInt(reader.readLine());
 			fattura.setIva(iva);
 
 			Cliente cliente = registraCliente();

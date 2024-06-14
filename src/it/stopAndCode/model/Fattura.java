@@ -144,7 +144,7 @@ public class Fattura {
 		for(Articolo a: articoli) {
 			descrizione.append("-------------------")
 					.append("\nDescrizione: ").append(a.getDescrizione())
-					.append("\nPrezzo Unitario: ").append(a.getPrezzoUnitario())
+					.append("\nPrezzo Unitario: ").append(a.getPrezzoUnitario()).append("€")
 					.append("\nQuantità: ").append(a.getQuantita())
 					.append("\n-----------------------------------\n");
 		}
