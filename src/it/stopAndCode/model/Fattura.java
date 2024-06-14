@@ -130,7 +130,12 @@ public class Fattura {
 		for(Articolo a : articoli) {
 			imponibile += a.getPrezzoUnitario() * a.getQuantita();
 		}
-		return imponibile;
+		DecimalFormat dFormat = new DecimalFormat("#0.00", new DecimalFormatSymbols());
+		dFormat.setRoundingMode(RoundingMode.HALF_EVEN);
+		String imponibileString = dFormat.format(imponibile);
+		imponibileString = imponibileString.replace(",", ".");
+		double imponibileDouble = Double.parseDouble(imponibileString);
+		return imponibileDouble;
 	}
 	
 	
@@ -142,7 +147,7 @@ public class Fattura {
 	public String articoloToString(List<Articolo> articoli) {
 		StringBuilder descrizione = new StringBuilder();
 		for(Articolo a: articoli) {
-			descrizione.append("-------------------")
+			descrizione.append("-----------------------------------\n")
 					.append("\nDescrizione: ").append(a.getDescrizione())
 					.append("\nPrezzo Unitario: ").append(a.getPrezzoUnitario()).append("€")
 					.append("\nQuantità: ").append(a.getQuantita())
@@ -155,7 +160,7 @@ public class Fattura {
 	//To string per la rappresentazione testuale dell'oggetto Fattura
 	@Override
 	public String toString() {
-		return  "************************************" + "\nFattura n. " + numeroFattura + "  del " + dataDiEmissione  + "\n----------------------------------" +  "\n"+ cliente + "\n" + articoloToString(articoli)+ "\nImponibile: " + calcoloImponibile(getArticoli()) + " €" + "\nIva: " + iva +"%" + "\nTotale da pagare: " + calcoloTotale(getIva(), calcoloImponibile(getArticoli()))+" €" + "\n************************************";
+		return  "**************************************" + "\n*  Fattura n. " + numeroFattura + "  del " + dataDiEmissione + "     *"  + "\n**************************************" +  "\n\n"+ cliente + "\n" + articoloToString(articoli)+ "\nImponibile: " + calcoloImponibile(getArticoli()) + " €" + "\nIva: " + iva +"%" + "\nTotale da pagare: " + calcoloTotale(getIva(), calcoloImponibile(getArticoli()))+" €";
 	}
 	
 	

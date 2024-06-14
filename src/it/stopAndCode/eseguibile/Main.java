@@ -3,7 +3,7 @@ package it.stopAndCode.eseguibile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import it.stopAndCode.repository.FatturaRepositoryAvanzata;
 public class Main {
 
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	
+
 	private static FatturaRepository repository = new FatturaRepositoryAvanzata();
 	private static ArticoloRepository articoloRepository = new ArticoloRepositoryImpl();
 	private static ClienteRepository clienteRepository = new ClienteRepositoryImpl();
@@ -73,25 +73,26 @@ public class Main {
 		}
 
 	}
+
 	/**
-	 * Questa funzione permette di creare la fattura, in base ai dati richiesti in input, crea l'oggetto fattura
-	 * @throws IOException 
+	 * Questa funzione permette di creare la fattura, in base ai dati richiesti in
+	 * input, crea l'oggetto fattura
+	 * 
+	 * @throws IOException
 	 * @Author Nicola
 	 */
 	static void registraFattura() throws IOException {
-		
+
 		Fattura fattura = new Fattura();
 
 		System.out.println("CREA UNA NUOVA FATTURA \nInserisci la data in formato aaaa-mm-gg");
 		String dataInput = reader.readLine();
-		
-		
-		 // Funzione utilizzata per la verifica dell'input Data inserita dall'utente.
+
+		// Funzione utilizzata per la verifica dell'input Data inserita dall'utente.
 		if (dataInput.matches("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date parseDate;
 
-			
 			try {
 				parseDate = dateFormat.parse(dataInput);
 				java.sql.Date sqlDate = new java.sql.Date(parseDate.getTime());
@@ -121,21 +122,27 @@ public class Main {
 	}
 
 	/**
-	 * Questa funzione permette di leggere dati dal database, passa una query che ritorna tutte le fatture registrate
-	 * @throws IOException 
+	 * Questa funzione permette di leggere dati dal database, passa una query che
+	 * ritorna tutte le fatture registrate
+	 * 
+	 * @throws IOException
 	 */
 	static void leggiFattura() throws IOException {
 		System.out.println("REGISTRO FATTURE EMESSE");
 		System.out.println("----------------------------");
 		for (Fattura fattura : repository.getFatture()) {
 			System.out.println(fattura);
-			System.out.println("--------------------------");
+			System.out.println("--------------------------------------");
+			System.out.println("**************************************");
+			System.out.println("");
+			System.out.println("");
 		}
 		GestioneFattura();
 	}
-	
+
 	/**
-	 * Questa funzione viene utilizzate per leggere l'intero archivio degli articoli nel database
+	 * Questa funzione viene utilizzate per leggere l'intero archivio degli articoli
+	 * nel database
 	 */
 	static void elencoArticoli() {
 		System.out.println("ELENCO ARTICOLI REGISTRATI");
@@ -159,14 +166,15 @@ public class Main {
 	}
 
 	/**
-	 *  Funzione utilizzata per registrare il singolo articolo
-	 * @return un oggetto di tipo Articolo dopo aver ricevuto in input i dati necessari alla costruzione dello stesso
+	 * Funzione utilizzata per registrare il singolo articolo
+	 * 
+	 * @return un oggetto di tipo Articolo dopo aver ricevuto in input i dati
+	 *         necessari alla costruzione dello stesso
 	 */
 	static Articolo registraArticolo() {
 
 		try {
 			Articolo articolo = new Articolo();
-
 
 			System.out.println("Inserisci la descrizione dell'articolo");
 			String descrizioneString = reader.readLine();
@@ -191,8 +199,10 @@ public class Main {
 	}
 
 	/**
-	 *  Funzione utilizzata per registrare il Cliente
-	 * @return un oggetto di tipo Cliente dopo aver ricevuto in input i dati per la costruzione
+	 * Funzione utilizzata per registrare il Cliente
+	 * 
+	 * @return un oggetto di tipo Cliente dopo aver ricevuto in input i dati per la
+	 *         costruzione
 	 */
 	static Cliente registraCliente() {
 		try {
@@ -214,7 +224,8 @@ public class Main {
 	}
 
 	/**
-	 *  Funzione utilizzata per registrare più articoli
+	 * Funzione utilizzata per registrare più articoli
+	 * 
 	 * @return un'ArrayList di articoli registrati
 	 */
 	static List<Articolo> registraArticolinew() {
@@ -224,9 +235,9 @@ public class Main {
 			String sceltaString = reader.readLine();
 			List<Articolo> articoli = new ArrayList<>();
 			while (sceltaString.equalsIgnoreCase("N")) {
-				Articolo articolo = registraArticolo(); 
+				Articolo articolo = registraArticolo();
 				articoli.add(articolo);
-				
+
 				System.out.println("Vuoi inserire un altro prodotto? premi N altrimenti altro per uscire");
 				sceltaString = reader.readLine();
 			}
